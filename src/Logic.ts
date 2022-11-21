@@ -5,6 +5,10 @@ import { pipe } from "@effect-ts/core/Function"
 
 export const mylitePipe = () => pipe(
   T.succeed(1),
+  T.chain((n) => {
+    return T.succeed(console.log(`${n + 1}`))
+  }),
+  T.result,
   T.runPromise
 )
 

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import { myPipe } from './Logic';
+import { mylitePipe } from './Logic';
 
 function App() {
 useEffect(() => {
- myPipe()
+  mylitePipe()
 }, [])
 
   return (
