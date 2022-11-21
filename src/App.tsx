@@ -3,17 +3,13 @@ import './App.css';
 import { mylitePipe } from './Logic';
 
 function App() {
-useEffect(() => {
-  mylitePipe()
-}, [])
-
   return (
     <div className="App">
       <div className="buttons-container">
         <div className="buttons-player">
-          <div className="button player button-shi">shi</div>
-          <div className="button player  button-fu">fu</div>
-          <div className="button player  button-mi">mi</div>
+          <div className="button player button-shi" onClick={mylitePipe} id='shi' >shi</div>
+          <div className="button player  button-fu" onClick={mylitePipe} id='fu' >fu</div>
+          <div className="button player  button-mi" onClick={mylitePipe} id='mi' >mi</div>
           <div className="score">player score : </div>
         </div>
         <div className="buttons-player">
