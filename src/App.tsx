@@ -1,11 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
+import {  pp } from './Logic';
+
 
 function App() {
+
+  pp()
+
   return (
     <div className="App">
-
       <div className="buttons-container">
         <div className="buttons-player">
           <div className="button player button-shi">shi</div>
@@ -20,7 +23,6 @@ function App() {
           <div className="score">computer score : </div>
         </div>
       </div>
-
     </div>
   );
 }
