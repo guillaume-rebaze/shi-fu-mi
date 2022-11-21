@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import { mylitePipe } from './Logic';
+import { mylitePipe } from './core/Logic';
 
 function App() {
   return (
