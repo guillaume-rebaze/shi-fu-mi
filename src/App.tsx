@@ -4,8 +4,11 @@ import {  pp } from './Logic';
 
 
 function App() {
+useEffect(() => {
+ pp()
+}, [])
 
-  pp()
+ 
 
   return (
     <div className="App">
