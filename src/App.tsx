@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import {  pp } from './Logic';
-
+import { myPipe } from './Logic';
 
 function App() {
 useEffect(() => {
- pp()
+ myPipe()
 }, [])
-
- 
 
   return (
     <div className="App">
