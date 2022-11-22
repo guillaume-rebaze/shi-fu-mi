@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import { mylitePipe } from './core/Logic';
+import { mylitePipeV2 } from './core/Logic';
+import { randListPerson } from './core/max/ts_prog';
 
 function App() {
+
+  const persons = randListPerson(5)
+  console.log(persons)
+
   return (
     <div className="App">
       <div className="buttons-container">
         <div className="buttons-player">
-          <div className="button player button-shi" onClick={mylitePipe} id='shi' >shi</div>
-          <div className="button player  button-fu" onClick={mylitePipe} id='fu' >fu</div>
-          <div className="button player  button-mi" onClick={mylitePipe} id='mi' >mi</div>
+          <div className="button player button-shi" onClick={mylitePipeV2} id='shi' >shi</div>
+          <div className="button player  button-fu" onClick={mylitePipeV2} id='fu' >fu</div>
+          <div className="button player  button-mi" onClick={mylitePipeV2} id='mi' >mi</div>
           <div className="score">player score : </div>
         </div>
         <div className="buttons-player">
