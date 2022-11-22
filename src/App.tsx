@@ -6,7 +6,6 @@ import { randListPerson } from './core/max/ts_prog';
 function App() {
 
   const persons = randListPerson(5)
-  console.log(persons)
 
   return (
     <div className="App">
