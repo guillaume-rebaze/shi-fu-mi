@@ -1,6 +1,5 @@
 import * as T from "@effect-ts/core/Effect"
 import { tag } from "@effect-ts/core/Has"
-import { type } from "os"
 
 /* random service */
  interface MathRandomService {

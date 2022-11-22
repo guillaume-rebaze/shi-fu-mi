@@ -31,6 +31,7 @@ const computerPlayAndResolve = ( rand : number , player: string): T.UIO<string> 
 
 export const mylitePipeV2 = (e: React.MouseEvent<HTMLDivElement>) => T.gen(
   function* (_) {
+
     const rand = yield* _(randomService.getRand)
     const player = e.currentTarget.id
     const computer = yield* _(computerPlayAndResolve( rand, e.currentTarget.id))
