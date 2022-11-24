@@ -1,7 +1,10 @@
 import './App.css';
 import { pp } from './core/Logic';
+import { testresultEither } from './core/max/ts_zio_test';
 
 function App() {
+
+  console.log(testresultEither)
 
   return (
     <div className="App">
