@@ -3,6 +3,7 @@ interface ABC {
     lastName: string
 }
 
+
 const createABC = (
     _firstName: string = "Jack",
     _lastName: string = "Dan",
