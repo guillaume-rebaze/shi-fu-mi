@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import { mylitePipeV2 } from './core/Logic';
-import { myABC_2, ABCrenameFirstName } from './core/max/ts_test_prog';
 
 function App() {
 

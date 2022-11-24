@@ -1,40 +1,61 @@
-type People = {
+import { number } from "@effect-ts/core/Equal"
+
+interface PeopleState {
+    name: string,
+    age: number
+}
+
+interface People {
     name: string,
     age: number,
+    changeName: (newName: string) => PeopleState,
+    fun(): void
 }
 
-class JackPerson {
-    name: string = "Jack"
+const createPeople = (
+    name: string = "Jean",
+    age: number = 0,
+    changeName: (newName: string) => PeopleState = (newName: string) => { return { name: newName, age: age } },
+    fun: () => void = () => { }
+): People => {
+    return {
+        name: name,
+        age: age,
+        changeName,
+        fun
+    }
+}
+
+const peopleChangeName = (people: People, newName: string): People => {
+    people.name = newName
+    return people
+}
+
+export const people = createPeople()
+people.changeName("Jean2")
+
+class PeopleV2 {
+    name: string
     age: number
     constructor(
-        age: number
+        name: string,
+        age: number,
     ) {
+        this.name = name
         this.age = age
     }
-}
 
-const aPerson = new JackPerson(12)
-export const randListPerson = (count: number): JackPerson[] => {
-
-    const array = new Array<JackPerson>(count)
-    for (let personIndex in array) {
-        array[personIndex] = new JackPerson(Math.round(Math.random() * 100))
+    changeName(newName:string): PeopleV2{
+        this.name = newName
+        return this
     }
 
-    // let array: JackPerson[] = []
-    // for (let i = 0; i < count; i++) {
-    //     array.push(new JackPerson(Math.round(Math.random() * 100)))
-    // }
-
-    console.log(array)
-    return array
-}
-
-const createPerson = (people: People): People => {
-    return {
-        name: people.name,
-        age: people.age,
+    changeAge(newAge:number): PeopleV2{
+        this.age = newAge
+        return this
     }
+
 }
 
-export const a = 1
+const people2 = new PeopleV2("Jean", 42)
+const test = people2.changeName("Jean2").changeAge(23)
