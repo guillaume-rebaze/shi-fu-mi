@@ -9,61 +9,80 @@ import { getRand, mathRandomService, randomService } from './core/ServiceProvide
 
 function App() {
 
-  const [playerScore , setPlayerScoreState] = useState<number>(0)
-  const [roundResult , setRoundResult] = useState<string>("")
-  const [computerScore , setComputerScoreState] = useState<number>(0) 
+  const [playerScore, setPlayerScoreState] = useState<number>(0)
+  const [roundResult, setRoundResult] = useState<string>("")
+  const [computerScore, setComputerScoreState] = useState<number>(0)
 
-  const setRound = (value: string) => T.succeedWith(() => {setRoundResult(value)})
-  const setPlayerScore = (value: number) => T.succeedWith(() => {setPlayerScoreState(value)})
-  const setComputerScore = (value: number) => T.succeedWith(() => {setComputerScoreState(value)})
+  const setRound = (value: string) => T.succeedWith(() => { setRoundResult(value) })
+  const setPlayerScore = (value: number) => T.succeedWith(() => { setPlayerScoreState(value) })
+  const setComputerScore = (value: number) => T.succeedWith(() => { setComputerScoreState(value) })
 
+  const updateScoresAndTextState = (roundText: string, setScore: T.UIO<void>) => 
+    T.gen(
+      function* (_) {
+        yield* _(setRound(roundText))
+        yield* _(setScore)
+      }
+    )
 
-
-  const mylitePipeV2 = (player:string) => T.gen(
+  const mylitePipeV2 = (player: string) => T.gen(
     function* (_) {
       const rand = yield* _(getRand)
-      const computer = yield* _(computerPlayAndResolve( rand, player))
-  
-      if (player === computer){ 
-          yield* _(setRound(result.equality))
+      const computer = yield* _(computerPlayAndResolve(rand, player))
+
+      if (player === computer) {
+        yield* _(setRound(result.equality))
       }
-     
-      else if (player === shifumi.shi){
-      if(  computer === shifumi.fu )  {
-         yield* _(setRound(result.win))
-         yield* _(setPlayerScore(playerScore + 1))
+
+      else if (player === shifumi.shi) {
+        if (computer === shifumi.fu) {
+          pipe(
+            updateScoresAndTextState(result.win, setPlayerScore(playerScore + 1)),
+            T.run
+          )
         } else {
-          yield* _(setRound(result.lose))
-          yield* _(setComputerScore(computerScore + 1))
-        }}
-      
-      else if (player === shifumi.fu) 
-      if( computer === shifumi.mi ) {
-        yield* _(setRound(result.win))
-        yield* _(setPlayerScore(playerScore + 1))
+          pipe(
+            updateScoresAndTextState(result.lose, setComputerScore(computerScore + 1)),
+            T.run
+          )
+        }
       }
-       else{ 
-        yield* _(setRound(result.lose))
-        yield* _(setComputerScore(computerScore + 1))
-      }
-      
+
+      else if (player === shifumi.fu)
+        if (computer === shifumi.mi) {
+          pipe(
+            updateScoresAndTextState(result.win, setPlayerScore(playerScore + 1)),
+            T.run
+          )
+        }
+        else {
+          pipe(
+            updateScoresAndTextState(result.lose, setComputerScore(computerScore + 1)),
+            T.run
+          )
+        }
+
       else {
-      if(computer === shifumi.shi)  {
-         yield* _(setRound(result.win))
-         yield* _(setPlayerScore(playerScore + 1))
+        if (computer === shifumi.shi) {
+          pipe(
+            updateScoresAndTextState(result.win, setPlayerScore(playerScore + 1)),
+            T.run
+          )
         }
-       else{
-         yield* _(setRound(result.lose))
-         yield* _(setComputerScore(computerScore + 1))
+        else {
+          pipe(
+            updateScoresAndTextState(result.lose, setComputerScore(computerScore + 1)),
+            T.run
+          )
         }
       }
-      
+
     }
   )
 
-  const pp = (e: React.MouseEvent<HTMLDivElement>) =>  pipe(
+  const pp = (e: React.MouseEvent<HTMLDivElement>) => pipe(
     mylitePipeV2(e.currentTarget.id),
-    T.provideService(mathRandomService) (randomService),
+    T.provideService(mathRandomService)(randomService),
     T.runPromise
   )
 
