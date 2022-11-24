@@ -7,7 +7,7 @@ import { tag } from "@effect-ts/core/Has"
   }
 
   export const mathRandomService = tag<MathRandomService>()
-  const getRand = T.accessServiceM(mathRandomService)(s => s.getRand)
+  export const getRand = T.accessServiceM(mathRandomService)(s => s.getRand)
   export const randomService = mathRandomService.of({ getRand: T.succeedWith(() => Math.random()) })
   
   

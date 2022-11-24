@@ -1,10 +1,8 @@
 
 import * as T from "@effect-ts/core/Effect"
 import { pipe } from "@effect-ts/core/Function"
-import { tag } from "@effect-ts/core/Has"
-import { type } from "os"
 import React, { ReactHTMLElement } from "react"
-import { log, mathRandomService, randomService } from "./ServiceProvider"
+import { consoleService, getRand, log, mathRandomService, randomService } from "./ServiceProvider"
 
 const shifumi = {
   shi: 'shi',
@@ -29,13 +27,11 @@ const computerPlayAndResolve = ( rand : number , player: string): T.UIO<string> 
   return computerValue
 })
 
-export const mylitePipeV2 = (e: React.MouseEvent<HTMLDivElement>) => T.gen(
+export const mylitePipeV2 = (player:string) => T.gen(
   function* (_) {
-   const randomService = yield* _(mathRandomService)
-   //const ConsoleService
-    const rand = yield* _(randomService.getRand)
-    const player = e.currentTarget.id
-    const computer = yield* _(computerPlayAndResolve( rand, e.currentTarget.id))
+  
+    const rand = yield* _(getRand)
+    const computer = yield* _(computerPlayAndResolve( rand, player))
 
     if (player === computer) yield* _(log(result.equality))
    
@@ -48,9 +44,8 @@ export const mylitePipeV2 = (e: React.MouseEvent<HTMLDivElement>) => T.gen(
   }
 )
 
-
 export const pp = (e: React.MouseEvent<HTMLDivElement>) =>  pipe(
-  mylitePipeV2(e),
+  mylitePipeV2(e.currentTarget.id),
   T.provideService(mathRandomService) (randomService),
   T.runPromise
 )

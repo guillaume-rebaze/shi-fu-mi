@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
 import './App.css';
-import { mylitePipeV2 } from './core/Logic';
+import { pp } from './core/Logic';
 
 function App() {
 
@@ -8,9 +7,9 @@ function App() {
     <div className="App">
       <div className="buttons-container">
         <div className="buttons-player">
-          <div className="button player button-shi" onClick={mylitePipeV2} id='shi' >shi</div>
-          <div className="button player  button-fu" onClick={mylitePipeV2} id='fu' >fu</div>
-          <div className="button player  button-mi" onClick={mylitePipeV2} id='mi' >mi</div>
+          <div className="button player button-shi" onClick={pp} id='shi' >shi</div>
+          <div className="button player  button-fu" onClick={pp} id='fu' >fu</div>
+          <div className="button player  button-mi" onClick={pp} id='mi' >mi</div>
           <div className="score">player score : </div>
         </div>
         <div className="buttons-player">
