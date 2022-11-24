@@ -18,3 +18,10 @@ import { tag } from "@effect-ts/core/Has"
   export const consoleService = tag<ConsoleService>()
   export const log = (s: string) => T.succeedWith(() => { console.log(s) })
   
+  /*set round result service */
+
+  interface SetService { 
+    set:(value: string|number )=> T.UIO<void>
+  }
+  export const setService = tag<SetService>()
+ 
