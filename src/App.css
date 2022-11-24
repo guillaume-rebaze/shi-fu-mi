@@ -16,7 +16,6 @@
 
 }
 
-
 .buttons-player {
   display: flex;
   flex-direction: column;
@@ -37,16 +36,16 @@
  cursor: pointer;
 }
 
-.player:hover {
-filter: brightness(1.1);
+.player:hover , .brightness {
+filter: brightness(1.5);
 }
 
 .button-shi {
-  background: crimson;
+  background: rgb(125, 35, 53);
 }
 
 .button-fu {
-  background: cornflowerblue;
+  background: rgb(69, 101, 161);
 }
 
 .button-mi {

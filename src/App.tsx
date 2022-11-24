@@ -2,9 +2,9 @@ import './App.css';
 
 import { pipe } from '@effect-ts/core';
 import * as T from '@effect-ts/core/Effect';
-import { useState } from 'react';
+import { HtmlHTMLAttributes, useRef, useState } from 'react';
 
-import { computerPlayAndResolve, result, shifumi } from './core/Logic';
+import { computerPlayAndResolve, resolutionPlayerVsComputer } from './core/Logic';
 import { getRand, mathRandomService, randomService } from './core/ServiceProvider';
 
 function App() {
@@ -13,95 +13,69 @@ function App() {
   const [roundResult, setRoundResult] = useState<string>("")
   const [computerScore, setComputerScoreState] = useState<number>(0)
 
+  const shiRef = useRef<HTMLDivElement>(null)
+  const fuRef = useRef<HTMLDivElement>(null)
+  const miRef = useRef<HTMLDivElement>(null)
+
   const setRound = (value: string) => T.succeedWith(() => { setRoundResult(value) })
   const setPlayerScore = (value: number) => T.succeedWith(() => { setPlayerScoreState(value) })
   const setComputerScore = (value: number) => T.succeedWith(() => { setComputerScoreState(value) })
 
-  const updateScoresAndTextState = (roundText: string, setScore: T.UIO<void>) => 
-    T.gen(
-      function* (_) {
-        yield* _(setRound(roundText))
-        yield* _(setScore)
-      }
-    )
+  const services = {
+    setRound: setRound,
+    setPlayerScore: setPlayerScore,
+    setComputerScore: setComputerScore,
+    playerScore,
+    computerScore,
+  }
 
-  const mylitePipeV2 = (player: string) => T.gen(
+  const shiFuMi = (player: string) => T.gen(
     function* (_) {
       const rand = yield* _(getRand)
-      const computer = yield* _(computerPlayAndResolve(rand, player))
+      const computer = yield* _(computerPlayAndResolve(rand))
+      
+      shiRef.current?.classList.remove("brightness")
+      fuRef.current?.classList.remove("brightness")
+      miRef.current?.classList.remove("brightness")
 
-      if (player === computer) {
-        yield* _(setRound(result.equality))
+      if(computer === "shi"){
+        shiRef.current?.classList.add("brightness")
+      }
+      else if(computer === "fu"){
+        fuRef.current?.classList.add("brightness")
+      }
+      else{
+        miRef.current?.classList.add("brightness")
       }
 
-      else if (player === shifumi.shi) {
-        if (computer === shifumi.fu) {
-          pipe(
-            updateScoresAndTextState(result.win, setPlayerScore(playerScore + 1)),
-            T.run
-          )
-        } else {
-          pipe(
-            updateScoresAndTextState(result.lose, setComputerScore(computerScore + 1)),
-            T.run
-          )
-        }
-      }
-
-      else if (player === shifumi.fu)
-        if (computer === shifumi.mi) {
-          pipe(
-            updateScoresAndTextState(result.win, setPlayerScore(playerScore + 1)),
-            T.run
-          )
-        }
-        else {
-          pipe(
-            updateScoresAndTextState(result.lose, setComputerScore(computerScore + 1)),
-            T.run
-          )
-        }
-
-      else {
-        if (computer === shifumi.shi) {
-          pipe(
-            updateScoresAndTextState(result.win, setPlayerScore(playerScore + 1)),
-            T.run
-          )
-        }
-        else {
-          pipe(
-            updateScoresAndTextState(result.lose, setComputerScore(computerScore + 1)),
-            T.run
-          )
-        }
-      }
+      pipe(
+        resolutionPlayerVsComputer(player, computer, services),
+        T.run
+      )
 
     }
   )
 
-  const pp = (e: React.MouseEvent<HTMLDivElement>) => pipe(
-    mylitePipeV2(e.currentTarget.id),
+  const pipeShiFuMi = (e: React.MouseEvent<HTMLDivElement>) => pipe(
+    shiFuMi(e.currentTarget.id),
     T.provideService(mathRandomService)(randomService),
     T.runPromise
   )
-
-
 
   return (
     <div className="App">
       <div className="buttons-container">
         <div className="buttons-player">
-          <div className="button player button-shi" onClick={pp} id='shi' >shi</div>
-          <div className="button player  button-fu" onClick={pp} id='fu' >fu</div>
-          <div className="button player  button-mi" onClick={pp} id='mi' >mi</div>
+          <div className="button player button-shi" onClick={pipeShiFuMi} id='shi' >shi</div>
+          <div className="button player button-fu" onClick={pipeShiFuMi} id='fu' >fu</div>
+          <div className="button player button-mi" onClick={pipeShiFuMi} id='mi' >mi</div>
           <div className="score">player score : {playerScore} </div>
         </div>
         <div>{roundResult}</div>
         <div className="buttons-player">
-          <div className="button button-shi">shi</div>
-          <div className="button button-fu">fu</div>
-          <div className="button button-mi">mi</div>
+          <div className="button button-shi" ref={shiRef} >shi</div>
+          <div className="button button-fu" ref={fuRef} >fu</div>
+          <div className="button button-mi" ref={miRef} >mi</div>
           <div className="score">computer score : {computerScore} </div>
         </div>
       </div>
