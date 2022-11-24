@@ -1,5 +1,3 @@
-import { number } from "@effect-ts/core/Equal"
-
 type People = {
     name: string,
     age: number,
