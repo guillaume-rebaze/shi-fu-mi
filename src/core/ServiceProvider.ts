@@ -6,7 +6,7 @@ import { tag } from "@effect-ts/core/Has"
     getRand: T.UIO<number>
   }
 
-  const mathRandomService = tag<MathRandomService>()
+  export const mathRandomService = tag<MathRandomService>()
   const getRand = T.accessServiceM(mathRandomService)(s => s.getRand)
   export const randomService = mathRandomService.of({ getRand: T.succeedWith(() => Math.random()) })
   
@@ -15,6 +15,6 @@ import { tag } from "@effect-ts/core/Has"
   interface ConsoleService {
     log: (message: string) => T.UIO<void>
   }
-  const consoleService = tag<ConsoleService>()
+  export const consoleService = tag<ConsoleService>()
   export const log = (s: string) => T.succeedWith(() => { console.log(s) })
   
