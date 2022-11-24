@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import { mylitePipeV2 } from './core/Logic';
-import { randListPerson } from './core/max/ts_prog';
+import { myABC_2, ABCrenameFirstName } from './core/max/ts_test_prog';
 
 function App() {
-
-  const persons = randListPerson(5)
 
   return (
     <div className="App">
