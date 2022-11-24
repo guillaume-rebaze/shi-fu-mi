@@ -17,3 +17,10 @@ export const testresultEither = absLenght1 + "_" + absLenght2
 const minLenght3 = (s: string): T.Effect<unknown, never, string> | T.IO<string, never> =>
     s.length >= 6 ? T.succeed(s) : T.fail('at least 6 characters')
 
+const a = true
+const aa = (k:number) => {
+    const z = 12
+    return z + k
+}
+const b = a ? aa(2) : undefined
+
