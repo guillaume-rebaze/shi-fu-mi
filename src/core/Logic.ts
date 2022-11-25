@@ -1,4 +1,5 @@
 import * as T from '@effect-ts/core/Effect';
+import { log } from './ServiceProvider';
 
 export const shifumi = {
   shi: 'shi',
@@ -26,51 +27,40 @@ export const computerPlayAndResolve = (rand: number): T.UIO<string> => T.succeed
 export const resolutionPlayerVsComputer = (
   player: string,
   computer: string,
-  services: {
-    setRound: (value: string) => T.UIO<void>;
-    setPlayerScore: (value: number) => T.UIO<void>;
-    setComputerScore: (value: number) => T.UIO<void>;
-    playerScore: number,
-    computerScore: number,
-  }
-) =>
+) : T.Effect<unknown, never, string> =>
   T.gen(
     function* (_) {
-
       if (player === computer) {
-        yield* _(services.setRound(result.equality))
+        yield* _(log(result.equality))
+        return result.equality
       }
-
       else if (player === shifumi.shi) {
         if (computer === shifumi.fu) {
-          yield* _(services.setRound(result.win))
-          yield* _(services.setPlayerScore(services.playerScore + 1))
+          yield* _(log(result.win))
+          return result.win
         } else {
-          yield* _(services.setRound(result.lose))
-          yield* _(services.setComputerScore(services.computerScore + 1))
+          yield* _(log(result.lose))  
+          return result.lose
         }
       }
-
       else if (player === shifumi.fu)
         if (computer === shifumi.mi) {
-          yield* _(services.setRound(result.win))
-          yield* _(services.setPlayerScore(services.playerScore + 1))
+          yield* _(log(result.win))
+          return result.win
         }
         else {
-          yield* _(services.setRound(result.lose))
-          yield* _(services.setComputerScore(services.computerScore + 1))
+          yield* _(log(result.lose))
+          return result.lose
         }
-
       else {
         if (computer === shifumi.shi) {
-          yield* _(services.setRound(result.win))
-          yield* _(services.setPlayerScore(services.playerScore + 1))
+          yield* _(log(result.win))
+          return result.win
         }
         else {
-          yield* _(services.setRound(result.lose))
-          yield* _(services.setComputerScore(services.computerScore + 1))
+          yield* _(log(result.lose))
+          return result.lose
         }
       }
-
     }
   )
