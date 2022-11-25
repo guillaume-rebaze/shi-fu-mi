@@ -24,3 +24,5 @@ const aa = (k:number) => {
 }
 const b = a ? aa(2) : undefined
 
+const test111 = 111
+
